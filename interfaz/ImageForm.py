@@ -9,10 +9,10 @@ import time
 
 class ImageForm(Toplevel):
 
-    def __init__(self, master=None,df):
+    def __init__(self, master=None):
 
         super().__init__(master=master)
-        self df=df;
+
         self.master= master
         self.title("Upload A new Image")
         self.geometry("800x200")
