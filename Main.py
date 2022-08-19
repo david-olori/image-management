@@ -18,7 +18,7 @@ total_rows = len(emp_list)
 total_columns = len(emp_list[0])
 
 
-CSV_PATH="/Users/dolori-macbook/PycharmProjects/image_mgt/data/COVID.metadata.xlsx"
+CSV_PATH="./data/COVID.metadata.xlsx"
 df = pd.read_excel(CSV_PATH)
 
 
