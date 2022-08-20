@@ -1,41 +1,41 @@
 from tkinter import *
-from interfaz import TableList ,ImageForm
+from interfaz import TableList ,ImageForm ,Pagination
 import pandas as pd
 
 
-# take the data
-emp_list = [('ID', 'Name', 'City', 'Age'),
-        (1, 'Gorge', 'California', 30),
-       (2, 'Maria', 'New York', 19),
-       (3, 'Albert', 'Berlin', 22),
-       (4, 'Harry', 'Chicago', 19),
-       (5, 'Vanessa', 'Boston', 31),
-       (6, 'Ali', 'Karachi', 30),
-        (7, 'juan', 'Bgfoston', 44),
-        (8, 'Daniela', 'Chicago', 44),
-        (9, 'Carlos', 'Chicago', 44)]
-total_rows = len(emp_list)
-total_columns = len(emp_list[0])
+
+
+
 
 
 CSV_PATH="./data/COVID.metadata.xlsx"
 df = pd.read_excel(CSV_PATH)
 
-
-
+v_offsset=0;
 # create root window
 master = Tk()
 master.title(" Manejo de Imagenes")
 main = Frame(master)
+
+pagi= Pagination.Pagination(0,25)
+table_df = TableList.Table(main,df,pagi);
+table_df.load_dataframe()
 main.pack(side="bottom",fill="both",expand=False)
+botton_Frame = Frame(master)
+botton_Frame.pack(side="right",fill="x",expand=False)
+
+btn_previuous = Button(botton_Frame, text=" << Anterior")
+btn_previuous.bind("<Button>", lambda e: table_df.anterior())
+btn_previuous.pack(side='left',pady=10)
+
+btn_next = Button(botton_Frame, text="Siguiente >> ")
+btn_next.bind("<Button>", lambda e: table_df.siguiente())
+btn_next.pack(side='right',pady=10)
 
 
-TableList.Table.load_dataframe(main,df)
+
 btn_quit = Button(master, text= "Salir", command = master.destroy)
 btn_quit.pack(side='left', fill="x");
-
-#table_list = TableList.Table(main, emp_list,total_rows,total_columns)
-
 
 btn_newimage = Button(master, text="Adicionar Imagen")
 btn_newimage.bind("<Button>", lambda e: ImageForm.ImageForm())

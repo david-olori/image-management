@@ -1,55 +1,60 @@
 
 from tkinter import *
+from interfaz import Pagination;
 
 
 class Table:
-    # Initialize a constructor
-    def __init__(self, gui, employee_list, total_rows, total_columns):
+    # Initialize a constructor Table(main,df,pagi);
 
-        # An approach for creating the table
-        for i in range(total_rows):
-            for j in range(total_columns):
+    def __init__(self, gui, df, pagination):
+        self.gui =gui
+        self.df=df
+        self.pagination = pagination
 
-                if i ==0:
-                    self.entry = Entry(gui, width=20, bg='LightSteelBlue', fg='Black',
-                                       font=('Arial', 16, 'bold'))
-                else:
-                    self.entry = Entry(gui, width=20, fg='blue',
-                               font=('Arial', 16, ''))
+    def load_dataframe(self):
 
-                self.entry.grid(row=i, column=j)
-                self.entry.insert(END, employee_list[i][j])
-                if(total_columns==total_columns and i>0):
-                    btn_eliminar=Button(gui,text='Eliminar')
-                    btn_eliminar.grid(row=i, column=j+1)
+        k = 0;
+        inicio = self.pagination.getOffsset()
+        fin = self.pagination.getOffsset() + self.pagination.getPageSize()
 
-    def load_dataframe (gui, df):
-        res= df.columns
-        print (res)
-        total_rows = len(df.index)
-        total_columns = len(df.columns)
+        for i in range(inicio,fin+1):
 
-        for i in range(0,20):
             j = 0
-            for column in df:
+            for column in self.df:
 
-                if i == 0:
-                    entry = Entry(gui, width=30, bg='LightSteelBlue', fg='Black',
-                                       font=('Arial', 16, 'bold'))
+                if k == 0:
+                    entry = Entry(self.gui, width=40, bg='LightSteelBlue', fg='Black',
+                                  font=('Arial', 16, 'bold'))
                 else:
-                    entry = Entry(gui, width=30, fg='blue',
-                                       font=('Arial', 16, ''))
+                    entry = Label(self.gui, width=40, fg='blue', bg='white',
+                                  font=('Arial', 16, ''), text=self.df.loc[i-1, column])
 
-                entry.grid(row=i, column=j)
-                if i == 0:
+                entry.grid(row=k, column=j)
+                if k == 0:
                     entry.insert(END, column)
-                else:
-                    entry.insert(END, df.loc[i, column])
-                j=j+1;
 
-            btn_eliminar = Button(gui, text='Eliminar')
-            btn_eliminar.grid(row=i, column=j )
+                j = j+1;
+            if k > 0:
+                btn_eliminar = Button(self.gui, name=f"button{i}",text='Eliminar',command = lambda indicex=i-1: self.eliminar(indicex))
+                btn_eliminar.grid(row=k, column=j)
+            k = k + 1;
 
+    def siguiente(self):
 
+        for widget in self.gui.winfo_children():
+            widget.destroy()
+        self.pagination.getNext()
+        self.load_dataframe();
 
+    def anterior(self):
 
+        for widget in self.gui.winfo_children():
+            widget.destroy()
+        self.pagination.getPrevious()
+        self.load_dataframe();
+
+    def eliminar(self,indice):
+        print("el valor a borrar indice es ss-> " + str(indice))
+        self.df.drop([indice],inplace=True)
+        self.df.reset_index(inplace=True,drop=True)
+        self.load_dataframe()
