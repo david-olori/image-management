@@ -4,7 +4,6 @@ from interfaz import Pagination;
 
 
 class Table:
-    # Initialize a constructor Table(main,df,pagi);
 
     def __init__(self, gui, df, pagination):
         self.gui =gui
@@ -54,7 +53,6 @@ class Table:
         self.load_dataframe();
 
     def eliminar(self,indice):
-        print("el valor a borrar indice es ss-> " + str(indice))
         self.df.drop([indice],inplace=True)
         self.df.reset_index(inplace=True,drop=True)
         self.load_dataframe()
