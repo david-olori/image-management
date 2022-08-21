@@ -40,7 +40,7 @@ class ImageForm(Toplevel):
 
 
         btn_choosefile = Button(self,text='Choose File',
-            command=lambda: self.open_file()
+                                command=lambda: self.open_file()
 
         )
         btn_choosefile.pack(side='top')
@@ -69,7 +69,19 @@ class ImageForm(Toplevel):
         )
         pb1.pack();
 
-        shutil.copy(self.file_path.name,"./data")
+        selection = "You selected the option " + str(self.var.get())
+        print(selection);
+
+        if self.var.get() == 1:
+            shutil.copy(self.file_path.name, "./data/COVID")
+        elif self.var.get() == 2:
+            shutil.copy(self.file_path.name, "./data/Lung_Opacity")
+        elif self.var.get() == 3:
+            shutil.copy(self.file_path.name, "./data/Normal")
+        elif self.var.get() == 4:
+            shutil.copy(self.file_path.name, "./data/Viral Pneumonia")
+        else:
+            print("choose am option")
 
         for i in range(5):
             self.update_idletasks()
