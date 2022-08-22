@@ -1,11 +1,19 @@
 from tkinter import *
 from ui import TableList ,ImageForm ,Pagination
+from src.core.covid import Covid  # Clase Covid
+
 import pandas as pd
+CSV_PATH = "/Users/dolori-macbook/PycharmProjects/image-management/data/raw/COVID-19_Radiography_Dataset/COVID.metadata.xlsx"
 
 
 
+covid_obj = Covid('/Users/dolori-macbook/PycharmProjects/image-management/data/prepared')
+covid_obj.load_dataframe()
+arr = list(covid_obj.images_dict.values())
+print(arr[0].file_name)
 
-CSV_PATH = "/Users/dolori-macbook/PycharmProjects/image-management/data/raw/COVID.metadata.xlsx"
+
+
 df = pd.read_excel(CSV_PATH)
 
 v_offsset = 0;

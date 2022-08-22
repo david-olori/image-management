@@ -10,6 +10,7 @@ class Table:
         self.df=df
         self.pagination = pagination
 
+
     def load_dataframe(self):
 
         k = 0;
