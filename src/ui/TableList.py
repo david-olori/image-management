@@ -1,6 +1,6 @@
 
 from tkinter import *
-from interfaz import Pagination;
+from ui import Pagination;
 
 
 class Table:

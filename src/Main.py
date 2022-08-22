@@ -1,11 +1,11 @@
 from tkinter import *
-from interfaz import TableList ,ImageForm ,Pagination
+from ui import TableList ,ImageForm ,Pagination
 import pandas as pd
 
 
 
 
-CSV_PATH = "./data/COVID.metadata.xlsx"
+CSV_PATH = "/Users/dolori-macbook/PycharmProjects/image-management/data/raw/COVID.metadata.xlsx"
 df = pd.read_excel(CSV_PATH)
 
 v_offsset = 0;
