@@ -78,4 +78,4 @@ def initialize_project(max_rows):
     bit_file.close()
     print('La creacion del dataset de pruebas se completo')
 
-initialize_project(7)
+initialize_project(500)
