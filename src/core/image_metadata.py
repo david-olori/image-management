@@ -1,10 +1,10 @@
 """
 Módulo que permite manipular la metadata de las imágenes.
 """
+from datetime import datetime
 import os
 import shutil
 import cv2
-from datetime import datetime
 
 
 class ImageMetadata:
@@ -16,8 +16,7 @@ class ImageMetadata:
         self.format = None
         self.size = None
         self.base_path = base_path
-        self.image_path = None
-        self.mask_path = None
+        self.img_paths = ['', '']
         self.create_at = None
         self.update_at = None
 
@@ -39,8 +38,8 @@ class ImageMetadata:
         self.create_at = curr_date
         self.update_at = curr_date
 
-        print(self.image_path)
-        print(self.mask_path)
+        print(self.img_paths[0])
+        print(self.img_paths[1])
         # Abrir la imagen (0: Gray, 1: Original)
         orig_img = cv2.imread(img_path)
         # Convertir obtener una imagen en GRAY
@@ -54,8 +53,8 @@ class ImageMetadata:
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
         # Guardar la imagen
-        cv2.imwrite(self.image_path, orig_img)
-        cv2.imwrite(self.mask_path, bw_img)
+        cv2.imwrite(self.img_paths[0], orig_img)
+        cv2.imwrite(self.img_paths[1], bw_img)
 
     def rename_image(self, new_name):
         """
@@ -63,12 +62,12 @@ class ImageMetadata:
         :param new_name: Nuevo nombre de la imagen
         :return: None
         """
-        old_image_path = self.image_path
-        old_mask_path = self.mask_path
+        old_image_path = self.img_paths[0]
+        old_mask_path = self.img_paths[1]
         self.file_name = new_name
         self.generate_paths()
-        shutil.move(old_image_path, self.image_path)
-        shutil.move(old_mask_path, self.mask_path)
+        shutil.move(old_image_path, self.img_paths[0])
+        shutil.move(old_mask_path, self.img_paths[1])
         curr_date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         self.update_at = curr_date
 
@@ -77,8 +76,8 @@ class ImageMetadata:
         Elimina las imágenes de sus respectivos directorios.
         :return: None
         """
-        os.remove(self.image_path)
-        os.remove(self.mask_path)
+        os.remove(self.img_paths[0])
+        os.remove(self.img_paths[1])
 
     def generate_paths(self):
         """
@@ -86,8 +85,8 @@ class ImageMetadata:
         :return: None
         """
         file_name = self.file_name + '.' + self.format
-        self.image_path = self.base_path + '/images/' + file_name
-        self.mask_path = self.base_path + '/masks/' + file_name
+        self.img_paths[0] = self.base_path + '/images/' + file_name
+        self.img_paths[1] = self.base_path + '/masks/' + file_name
 
     def as_row(self):
         """
